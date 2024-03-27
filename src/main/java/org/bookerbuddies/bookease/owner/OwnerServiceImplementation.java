@@ -57,15 +57,13 @@ public class OwnerServiceImplementation implements OwnerService {
         }
         return owner.get();
     }
-
     @Override
-    public MeetingRoom createNewMeetingRoom(MeetingRoom meetingRoom) throws MeetingRoomAlreadyExistException, MeetingRoomNullException {
-        if (meetingRoom == null) {
-            throw new MeetingRoomNullException("Meeting room cannot be null");
-        }
-        if(meetingRoomRepository.existsById(meetingRoom.getId())){
-            throw new MeetingRoomAlreadyExistException("Meeting room with this id already exists");
-        }
+    public MeetingRoom createNewMeetingRoom(MeetingRoom meetingRoom){
+//        if (meetingRoom == null)
+//            throw new MeetingRoomNullException("Meeting room cannot be null");
+//        if(meetingRoomRepository.existsById(meetingRoom.getId())){
+//            throw new MeetingRoomAlreadyExistException("Meeting room with this id already exists");
+//        }
         return meetingRoomRepository.save(meetingRoom);
     }
 
@@ -82,6 +80,14 @@ public class OwnerServiceImplementation implements OwnerService {
         }
         return meetingRoom.get();
     }
+    public MeetingRoom getMeetingRoomByName(String name)throws MeetingRoomNotFoundException{
+        MeetingRoom meetingRoom = meetingRoomRepository.findByName(name);
+        if(meetingRoom==null){
+            throw new MeetingRoomNotFoundException("Meeting room with name : " + name + " does not exist");
+        }
+        return meetingRoom;
+    }
+
 
     @Override
     public MeetingRoom updateMeetingRoom(String name, String type, LocalDate date, Double costOfRoom) throws MeetingRoomNotFoundException {

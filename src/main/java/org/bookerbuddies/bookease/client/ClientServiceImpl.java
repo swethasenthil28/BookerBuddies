@@ -6,6 +6,7 @@ import org.bookerbuddies.bookease.client.dto.RegisterAccount;
 import org.bookerbuddies.bookease.client.exception.ClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
@@ -21,13 +22,13 @@ public class ClientServiceImpl implements ClientService {
     public Client newRegistration(RegisterAccount registerAccount) throws ClientException {
         Account account = new Account(registerAccount.getName(), registerAccount.getBalance(), "client");
         account = this.accountRepository.save(account);
-        if(account.getName()==null && account.getBalance()!=null)
-        {
-            throw new ClientException("Account name is null");
-        }
+//        if(account.getName()==null && account.getBalance()!=null)
+//        {
+//            throw new ClientException("Account name is null");
+//        }
 //        if(account.getName()!=null && account.getBalance()==null)
 //        {
-//            throw new ClientException("Account balance is nnull");
+//            throw new ClientException("Account balance is null");
 //        }
         if((account.getName()==null && account.getBalance()==null))
         {
@@ -44,6 +45,7 @@ public class ClientServiceImpl implements ClientService {
         return client;
     }
 
+
     @Override
     public Client loginPage(String email, String password) throws ClientException {
         Client client = this.clientRepository.findByEmailAndPassword(email, password);
@@ -51,7 +53,6 @@ public class ClientServiceImpl implements ClientService {
         {
             throw new ClientException("You have not entered the credentials properly");
         }
-
         return client;
     }
 
@@ -59,7 +60,7 @@ public class ClientServiceImpl implements ClientService {
     public Client updateClient(RegisterAccount registerAccount) throws ClientException {
         Optional<Client> getClient= clientRepository.findById(registerAccount.getClientId());
         if(getClient.isEmpty()){
-            throw new ClientException("Client not found");
+            throw new ClientException("Client id not found");
         }
         getClient.get().setEmail(registerAccount.getEmail());
         getClient.get().setName(registerAccount.getName());
@@ -73,19 +74,28 @@ public class ClientServiceImpl implements ClientService {
         Optional<Client> client=this.clientRepository.findById(clientId);
         if(client.isEmpty())
         {
-            throw new ClientException("Your clientId cannot be null  or doesn't match");
+            throw new ClientException("Your clientId cannot be null or doesn't match");
         }
         return client.get();
     }
 
-    public String deleteClientById(Integer clientId) throws ClientException {
-        Optional<Client> client = this.clientRepository.findById(clientId);
-        if(client.isEmpty())
-        {
-            throw new ClientException("Your clientId might be null or doesn't match");
+
+
+    public Client deleteClientById(Integer clientId) throws ClientException {
+        Optional<Client> client=this.clientRepository.findById(clientId);
+        Client clientid=client.get();
+        if (clientRepository.findById(clientId).isEmpty()) {
+            throw new ClientException(("Your clientId might be null or doesn't match"));
         }
         this.clientRepository.deleteById(clientId);
-        return "Client with id :"+clientId+" deleted";
+        return clientid;
     }
-
 }
+
+//        Optional<Client> client = this.clientRepository.findById(clientId);
+//        if(client.isEmpty())
+//        {
+//            throw new ClientException("Your clientId might be null or doesn't match");
+//        }
+//        this.clientRepository.deleteById(clientId);
+//        return "Client with id :"+clientId+" deleted";

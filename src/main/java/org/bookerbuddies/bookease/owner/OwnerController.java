@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-
 @RestController
-@CrossOrigin("http://localhost:4200/")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"})
 public class OwnerController {
     @Autowired
     OwnerService ownerService;
@@ -37,28 +36,34 @@ public class OwnerController {
     public Owner getOwnerById(@PathVariable("id") Integer ownerId) throws OwnerIdNotFoundException {
         return this.ownerService.getOwnerById(ownerId);
     }
-
-    @PostMapping("newMeetingRoom")
-    public MeetingRoom createNewMeetingRoom(@RequestBody MeetingRoom meetingRoom) throws MeetingRoomAlreadyExistException, MeetingRoomNullException {
+    @PostMapping("addNewMeetingRoom")
+    public MeetingRoom createNewMeetingRoom(@RequestBody MeetingRoom meetingRoom)
+//            throws MeetingRoomNullException, MeetingRoomAlreadyExistException
+    {
         return ownerService.createNewMeetingRoom(meetingRoom);
     }
 
-    @GetMapping("meetingrooms/{id}")
+    @GetMapping("getMeetingRoomById/{id}")
     public MeetingRoom getMeetingRoomById(@RequestParam Integer meetingRoomId) throws MeetingRoomNotFoundException {
         return this.ownerService.getMeetingRoomById(meetingRoomId);
     }
 
-    @GetMapping("meetingrooms")
+    @GetMapping("meetingroom/name/{name}")
+    public MeetingRoom getMeetingRoomByName(@PathVariable String name)throws MeetingRoomNotFoundException{
+        return this.ownerService.getMeetingRoomByName(name);
+    }
+    @GetMapping("viewallmeetingrooms")
     public List<MeetingRoom> getAllMeetingRooms() {
         return ownerService.getAllMeetingrooms();
     }
 
-    @PatchMapping("meetingrooms/update/{id}/{name}/{type}/{date}/{costOfRoom}")
+    @PatchMapping("meetingrooms/update/{name}/{type}/{date}/{costOfRoom}")
     public MeetingRoom updateMeetingRoom(@PathVariable("name") String name, @PathVariable("type") String type, @PathVariable("date") LocalDate date, @PathVariable("costOfRoom") Double costOfRoom) throws MeetingRoomNotFoundException {
         return this.ownerService.updateMeetingRoom(name, type, date, costOfRoom);
     }
 
-    @DeleteMapping("meetingrooms/{id}")
+
+    @DeleteMapping("deleteMeetingRoomById/{id}")
     public MeetingRoom deleteMeetingRoomById(@PathVariable("id") Integer id) throws MeetingRoomNotFoundException {
         return this.ownerService.deleteMeetingRoomById(id);
     }

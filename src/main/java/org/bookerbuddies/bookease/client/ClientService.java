@@ -12,6 +12,5 @@ public interface ClientService {
 
     Client getClientbyId(Integer clientId)throws ClientException;
 
-    String deleteClientById(Integer clientId) throws ClientException;
-
+    Client deleteClientById(Integer clientId) throws ClientException;
 }

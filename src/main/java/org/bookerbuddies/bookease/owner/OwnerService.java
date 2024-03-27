@@ -22,13 +22,12 @@ public interface OwnerService {
 
     Owner addOwner(Integer ownerId, String name, String email, String password, Account account);
 
-    MeetingRoom createNewMeetingRoom(MeetingRoom meetingRoom) throws MeetingRoomAlreadyExistException, MeetingRoomNullException;
+    MeetingRoom createNewMeetingRoom(MeetingRoom meetingRoom) ;
 
     List<MeetingRoom> getAllMeetingrooms();
 
     MeetingRoom getMeetingRoomById(Integer meetingRoomId) throws MeetingRoomNotFoundException;
-
-
+    MeetingRoom getMeetingRoomByName(String name)throws MeetingRoomNotFoundException;
     MeetingRoom updateMeetingRoom(String name, String type, LocalDate date, Double costOfRoom) throws MeetingRoomNotFoundException;
 
     MeetingRoom deleteMeetingRoomById(Integer id) throws MeetingRoomNotFoundException;

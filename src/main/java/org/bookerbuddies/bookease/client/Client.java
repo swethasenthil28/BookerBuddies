@@ -1,9 +1,9 @@
 package org.bookerbuddies.bookease.client;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,24 +16,26 @@ import java.util.ArrayList;
 import java.util.List;
 //@NoArgsConstructor
 @Data
+//@Builder
 //@AllArgsConstructor
-@Builder
+
 @Entity
 public class Client {
-
-    private String name;
     @Id
     private Integer clientId;
+    //    @NotBlank(message = "Name cannot be null")
+//    @Pattern(regexp="[a-zA-Z]{2,10}",message="Your name should be min 2& max 10")
+    private String name;
+    //    @Email(message="Email should contain @")
     private String email;
     private String password;
-
     @OneToOne
     private Account account;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<Booking> bookings = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<Payment> payment = new ArrayList<>();
 
 
@@ -120,6 +122,4 @@ public class Client {
 
     public Client() {
     }
-
-
 }

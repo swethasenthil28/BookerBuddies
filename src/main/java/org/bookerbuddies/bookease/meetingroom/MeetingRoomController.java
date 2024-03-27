@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:4200/")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"})
 public class MeetingRoomController {
     @Autowired
     private MeetingRoomService meetingRoomService;
@@ -24,7 +24,7 @@ public class MeetingRoomController {
     }
 
     @GetMapping("availableMeetingRoomByDateAndType/{bookingdate}/{type}")
-    public List<MeetingRoom> getAvailableMeetingRoomsByDateAndType(@RequestParam LocalDate bookingDate,@RequestParam String type){
-        return meetingRoomService.getAllMeetingRoomsByDateAndType(bookingDate,type);
+    public List<MeetingRoom> getAvailableMeetingRoomsByDateAndType(@RequestParam LocalDate bookingDate, @RequestParam String type) {
+        return meetingRoomService.getAllMeetingRoomsByDateAndType(bookingDate, type);
     }
 }

@@ -29,8 +29,4 @@ public class Booking {
     @OneToOne
     private Payment payment;
 
-    @OneToOne
-    private FeedBack feedBack;
-
-
 }
